@@ -2,9 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
 import time
 import json
-import IPython
 
 options = webdriver.ChromeOptions()
 options.add_argument("--headless")
@@ -17,7 +17,6 @@ options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
 def getParams(ip):
     navegador = webdriver.Chrome(options=options)
     wait = WebDriverWait(navegador, 10)
-    
     navegador.get(f"http://{ip}")
 
     if not 'brother' in navegador.page_source.lower():
@@ -28,8 +27,7 @@ def getParams(ip):
             navegador.switch_to.frame(iframe)
             wait.until(EC.presence_of_element_located((By.ID,'ID_LGI_LOGIN_BT'))).click()
             navegador.switch_to.default_content()
-        
-        
+
         click_with_js(navegador, By.ID, 'ID_Menu_System')
         click_with_js(navegador, By.ID, 'ID_SubMenu_System_DeviceInfo')
         click_with_js(navegador, By.ID, 'ID_SpareSubMenu_System_DeviceStatus')
@@ -137,8 +135,10 @@ def getParams(ip):
                     }
                 ]
             }
+            navegador.quit()
             return(output)
         except:
+            navegador.quit()
             return {'Status': 'Offline', 'IP': ip, 'Brand': 'Brother'}
 
 def click_with_js(driver, by, value):

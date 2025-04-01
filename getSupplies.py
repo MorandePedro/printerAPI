@@ -2,7 +2,6 @@ import requests
 import urllib3
 import json
 from getParams import getParams
-import IPython
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def getSupplies(ip):
